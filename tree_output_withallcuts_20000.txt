@@ -1,0 +1,12 @@
+Check point 1 
+Total number of events .............. 20000
+Number of events with 1 Sim Particle  14510
+Number of PF candidates ............. 1331487
+Number of PF Charged Hadrons......... 11621
+ - With pt > 1 GeV/c ................ 11567
+ - With E_HCAL > 0.5 GeV .............. 11428
+ - With only 1 track in the block ... 11416
+ - With p > 1 GeV/c ................. 11415
+ - With at least 2 pixel hits ....... 11207
+ - With more than 14 track hits ..... 10861
+ - With E_ECAL < 1e+09 GeV ............ 10861
