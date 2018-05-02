@@ -1,1 +1,34 @@
-ee
+directory--->	calib_development/		files--->	calibChris_newfitting_trial.C			contains old parameterization formula for beta of EH hadrons in encap region with updated parameters(not fixed for beta EH encap)						
+				                                      calibChris_newfitting_trial_1.C		same as calibChris_newfitting_trial.C but only saves responses in a output_*.root file						
+				                                      raw_calibChris.C			            only contains raw information from tree or calib code without any calibration						
+				                                      calib_calibChris.C			          contains only energy correction oe without eta dependent correction						
+													
+			                             directory-->	4_04_2018/	files--->	20_30/	contains raw info in root files about particular energy ranges in diff eta cuts 						
+						                                                          30_40/	contains raw info in root files about particular energy ranges in diff eta cuts						
+						                                                          40_50/	contains raw info in root files about particular energy ranges in diff eta cuts						
+													
+				                                        23_04_2018/	directory--->	2_10/							
+					                                                              	10_20/							
+													
+			                                        	30_04_2018/	directory-->	eta_cut/	files-->	raw_EH_response_eta_0_0.5.gif					
+								                                                                              raw_EH_response_eta_0.5_0.75.gif					
+													                                                                    raw_EH_response_eta_0.75_1.2.gif					
+								                                                                              raw_EH_response_eta_0.75_1.2.gif					
+								                                                                              raw_H_response_eta_0_0.5.gif					
+                                                                                              raw_H_response_eta_0.5_0.75.gif					
+                                                                                              raw_H_response_eta_0.75_1.2.gif					
+                                                                                              raw_H_response_eta_0.75_1.2.gif
+
+                                                1_05_2018/	files--->	output_rawEH_root/							
+                                                                      output_rawH_root/							
+                                                                      rawecal_vs_etas.gif							
+                                                                      rawhcal_vs_etas.gif							
+                                                                      rawetrue_vs_etas.gif							
+                                                                      rawecal_vs_etas_etabin_25.gif							
+                                                                      rawhcal_vs_etas_etabin_25.gif							
+                                                                      rawetrue_vs_etas_etabin_25.gif							
+                                                                      rawecal_vs_etas_etabin_50.gif							
+                                                                      rawhcal_vs_etas_etabin_50.gif							
+                                                                      rawetrue_vs_etas_etabin_50.gif							
+                                                                      rawresponse_EH_for_diff_eta_cuts.gif							
+                                                                      rawresponse_H_for_ diff_eta_cuts.gif							
