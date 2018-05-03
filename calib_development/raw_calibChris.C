@@ -182,7 +182,7 @@ void calibChris()
                      hcalEnergies, etas, phis);
 
 
-
+   int n=30,m=50;
 TH2F* rawecalvsrawhcal = new TH2F("rawecalvsrawhcal","uncorrected Ecal energy vs uncorrected Hcal energy",500,-2,sampleRangeHigh,500,-2,sampleRangeHigh);
 TH1F* uncorr_ecal = new TH1F("uncorr_ecal","Uncorrected Ecal energy ",500,-2,sampleRangeHigh);
 TH1F* uncorr_hcal = new TH1F("uncorr_hcal","Uncorrected Hcal energy ",500,-2,sampleRangeHigh);
@@ -190,19 +190,26 @@ TH1F* response_EH = new TH1F("response_EH", "1D Response distribution",125,-1.5,
 TH1F* response_H = new TH1F("response_H", "1D Response distribution",125,-1.5,2);
 TH1F* response_EH_0_1 = new TH1F("response_EH_0_1", "1D Response distribution",125,-1.5,2);
  TH2F* rawhcal_response = new TH2F("rawhcal_response","Response vs Etrue",500,0,500,150,-1.5,1.5); 
-TH2F* rawetrue_vs_etas = new TH2F("rawetrue_vs_etas","Raw etrue energy vs etas",50,0,3.0,500,0,500);
+TH2F* rawetrue_vs_etas_EH = new TH2F("rawetrue_vs_etas_EH","Raw etrue energy vs etas with response (avg hcalenergy+ecalenergy/etrue) in z axis",n,0,3.0,m,0,500);
+ TH2F* rawetrue_vs_etas_H = new TH2F("rawetrue_vs_etas_H","Raw etrue energy vs etas with response (avg hcalenergy/etrue) in z axis",n,0,3.0,m,0,500);
+
  TH2F* rawecal_vs_etas = new TH2F("rawecal_vs_etas","Raw ecal energy vs etas",50,0,3.0,500,0,500);
  TH2F* rawhcal_vs_etas = new TH2F("rawhcal_vs_etas","Raw hcal energy vs etas",50,0,3.0,500,0,500);
-
-
+ TH2F* rawecal_vs_etas_EH = new TH2F("rawecal_vs_etas_EH","Raw ecal energy vs etas",50,0,3.0,500,0,500);
+ TH2F* rawhcal_vs_etas_EH = new TH2F("rawhcal_vs_etas_EH","Raw hcal energy vs etas",50,0,3.0,500,0,500);
+ TH2F* rawhcal_vs_etas_H = new TH2F("rawhcal_vs_etas_H","Raw hcal energy  vs etas",50,0,3.0,500,0,500);
+ TH2F* rawetrue_vs_etas_w_1_EH = new TH2F("rawetrue_vs_etas_w_1_EH","Raw etrue energy vs etas",n,0,3.0,m,0,500);
+ TH2F* rawetrue_vs_etas_w_1_H = new TH2F("rawetrue_vs_etas_w_1_H","Raw etrue energy vs etas",n,0,3.0,m,0,500);
 
 //plots summary
    for(double i=2; i <= ETrueEnergies.size() ; i++)
      {       // if (ETrueEnergies[i] >= 10  && ETrueEnergies[i] < 20)
 	 {
-	    // if(fabs(etas[i]) > 0.5) continue;// delete me                                                                                             
-	   rawetrue_vs_etas->Fill(fabs(etas[i]),ETrueEnergies[i]);
-	   
+	    // if(fabs(etas[i]) > 0.5) continue;// delete me                                                                                 
+         
+	   rawecal_vs_etas->Fill(fabs(etas[i]),ecalEnergies[i]);
+	   rawhcal_vs_etas->Fill(fabs(etas[i]),hcalEnergies[i]);
+	      
 	    // if (fabs(etas[i]) < 0 ) continue;
 	  if (ecalEnergies[i] != 0 && hcalEnergies[i] != 0 )
 	    {if(ecalEnergies[i] > 0)
@@ -210,19 +217,26 @@ TH2F* rawetrue_vs_etas = new TH2F("rawetrue_vs_etas","Raw etrue energy vs etas",
 	       uncorr_ecal->Fill(ecalEnergies[i]);
 	       uncorr_hcal->Fill(hcalEnergies[i]);
 	       response_EH->Fill((ecalEnergies[i] + hcalEnergies[i]-ETrueEnergies[i])/ETrueEnergies[i]);
-	       rawecal_vs_etas->Fill(fabs(etas[i]),ecalEnergies[i]);
-
+	       rawecal_vs_etas_EH->Fill(fabs(etas[i]),ecalEnergies[i]);
+	       rawhcal_vs_etas_EH->Fill(fabs(etas[i]),hcalEnergies[i]);
+	       rawetrue_vs_etas_w_1_EH->Fill(fabs(etas[i]),ETrueEnergies[i]);
+	       rawetrue_vs_etas_EH->Fill(fabs(etas[i]),ETrueEnergies[i],(hcalEnergies[i]+ecalEnergies[i])/ETrueEnergies[i]);   
 		 }
 	      if (ecalEnergies[i] < 1)
 		response_EH_0_1->Fill((ecalEnergies[i] + hcalEnergies[i]-ETrueEnergies[i])/ETrueEnergies[i]);
-	      rawhcal_vs_etas->Fill(fabs(etas[i]),hcalEnergies[i]);
-
+	      
 	      
 	    }
 	   if (ecalEnergies[i] == 0 && hcalEnergies[i] !=0)
-	     response_H->Fill((ecalEnergies[i] + hcalEnergies[i]-ETrueEnergies[i])/ETrueEnergies[i]);
-	   rawhcal_response->Fill(ETrueEnergies[i],(ecalEnergies[i] + hcalEnergies[i]-ETrueEnergies[i])/ETrueEnergies[i]);
+	     { response_H->Fill((ecalEnergies[i] + hcalEnergies[i]-ETrueEnergies[i])/ETrueEnergies[i]);
+	       rawhcal_response->Fill(ETrueEnergies[i],(ecalEnergies[i] + hcalEnergies[i]-ETrueEnergies[i])/ETrueEnergies[i]);
+	       rawhcal_vs_etas_H->Fill(fabs(etas[i]),hcalEnergies[i]);
+	      rawetrue_vs_etas_w_1_H->Fill(fabs(etas[i]),ETrueEnergies[i]);
+	       rawetrue_vs_etas_H->Fill(fabs(etas[i]),ETrueEnergies[i],(hcalEnergies[i]+ecalEnergies[i])/ETrueEnergies[i]);  
+	  
+	     }	
 	 }
+
    }
      response_EH->Scale(1.0/response_EH->Integral());
      response_H->Scale(1.0/response_H->Integral());
@@ -235,6 +249,13 @@ TH2F* rawetrue_vs_etas = new TH2F("rawetrue_vs_etas","Raw etrue energy vs etas",
      response_EH->SetLineColor(4);
      response_EH_0_1->SetLineColor(2);
      response_H->SetLineColor(1);
+     TH2F* h_frac_EH = (TH2F*)rawetrue_vs_etas_EH->Clone("fraction_EH");
+     h_frac_EH->GetZaxis()->SetTitle("z frac");
+     h_frac_EH->Divide(h_frac_EH, rawetrue_vs_etas_w_1_EH, 1., 1., "B");
+
+     TH2F* h_frac_H = (TH2F*)rawetrue_vs_etas_H->Clone("fraction_H");
+     h_frac_H->GetZaxis()->SetTitle("z frac");
+     h_frac_H->Divide(h_frac_H, rawetrue_vs_etas_w_1_H, 1., 1., "B");
      // TPaveStats *s = (TPaveStats*)response_H->GetListOfFunctions()->FindObject("stats");
      // s->SetY1NDC (0.8);
      // s->SetY2NDC (1);
@@ -271,8 +292,17 @@ TH2F* rawetrue_vs_etas = new TH2F("rawetrue_vs_etas","Raw etrue energy vs etas",
       response_H->Write();
       response_EH_0_1->Write();
       rawhcal_response->Write();
-      rawetrue_vs_etas->Write();
+      rawetrue_vs_etas_EH->Write();
       rawecal_vs_etas->Write();
       rawhcal_vs_etas->Write();
+      rawecal_vs_etas_EH->Write();
+      rawhcal_vs_etas_EH->Write();
+      rawhcal_vs_etas_H->Write();
+      rawetrue_vs_etas_w_1_EH->Write();
+      rawetrue_vs_etas_w_1_H->Write();
+      rawetrue_vs_etas_H->Write();
+      
+      h_frac_EH->Write();
+      h_frac_H->Write();
       file->Close();
 }
