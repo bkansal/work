@@ -30,7 +30,8 @@ PFEnergyCalibration::initializeCalibrationFunctions() {
   threshE = 3.5;
   threshH = 2.5;
 
-  //calibChrisClean.C calibration parameters shubham May 01, 2017
+  //calibChrisClean.C calibration parameters bhumika march 2018
+  //change in code to make it eta independent --->  fa_Barrel, fa_Endcap etc to fa_0, fa_1, fa_2 etc where 0,1,2,3,4,5 are finer eta regions. 
   fa_0 = std::make_unique<TF1>("fa_0","[0]+((([1]+([2]/sqrt(x)))*exp(-(x^[6]/[3])))-([4]*exp(-(x^[7]/[5]))))",1.,1000.);
   fa_0->SetParameter(0,-13.9219);
   fa_0->SetParameter(1,14.9124);
