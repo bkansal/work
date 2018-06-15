@@ -29,96 +29,170 @@ PFEnergyCalibration::initializeCalibrationFunctions() {
   threshE = 3.5;
   threshH = 2.5;
 
-  //calibChrisClean.C calibration parameters shubham May 01, 2017
-  faBarrel = std::make_unique<TF1>("faBarrel","[0]+((([1]+([2]/sqrt(x)))*exp(-(x^[6]/[3])))-([4]*exp(-(x^[7]/[5]))))",1.,1000.);
-  faBarrel->SetParameter(0,-13.9219);
-  faBarrel->SetParameter(1,14.9124);
-  faBarrel->SetParameter(2,5.38578);
-  faBarrel->SetParameter(3,0.861981);
-  faBarrel->SetParameter(4,-0.00759275);
-  faBarrel->SetParameter(5,0.00373563);
-  faBarrel->SetParameter(6,-1.17946);
-  faBarrel->SetParameter(7,-1.69561);
-  fbBarrel = std::make_unique<TF1>("fbBarrel","[0]+((([1]+([2]/sqrt(x)))*exp(-(x^[6]/[3])))-([4]*exp(-(x^[7]/[5]))))",1.,1000.);
-  fbBarrel->SetParameter(0,2.25366);
-  fbBarrel->SetParameter(1,0.537715);
-  fbBarrel->SetParameter(2,-4.81375);
-  fbBarrel->SetParameter(3,12.109);
-  fbBarrel->SetParameter(4,1.80577);
-  fbBarrel->SetParameter(5,0.187919);
-  fbBarrel->SetParameter(6,-6.26234);
-  fbBarrel->SetParameter(7,-0.607392);
-  fcBarrel = std::make_unique<TF1>("fcBarrel","[0]+((([1]+([2]/sqrt(x)))*exp(-(x^[6]/[3])))-([4]*exp(-(x^[7]/[5]))))",1.,1000.);
-  fcBarrel->SetParameter(1,0.855057);
-  fcBarrel->SetParameter(2,-6.04199);
-  fcBarrel->SetParameter(3,2.08229);
-  fcBarrel->SetParameter(4,0.592266);
-  fcBarrel->SetParameter(5,0.0291232);
-  fcBarrel->SetParameter(6,0.364802);
-  fcBarrel->SetParameter(7,-1.50142);
-  faEtaBarrelEH = std::make_unique<TF1>("faEtaBarrelEH","[0]+[1]*exp(-x/[2])",1.,1000.);
-  faEtaBarrelEH->SetParameter(0,0.0185555);
-  faEtaBarrelEH->SetParameter(1,-0.0470674);
-  faEtaBarrelEH->SetParameter(2,396.959);
-  fbEtaBarrelEH = std::make_unique<TF1>("fbEtaBarrelEH","[0]+[1]*exp(-x/[2])",1.,1000.);
-  fbEtaBarrelEH->SetParameter(0,0.0396458);
-  fbEtaBarrelEH->SetParameter(1,0.114128);
-  fbEtaBarrelEH->SetParameter(2,251.405);
-  faEtaBarrelH = std::make_unique<TF1>("faEtaBarrelH","[0]+[1]*x",1.,1000.);
-  faEtaBarrelH->SetParameter(0,0.00434994);
-  faEtaBarrelH->SetParameter(1,-5.16564e-06);
-  fbEtaBarrelH = std::make_unique<TF1>("fbEtaBarrelH","[0]+[1]*exp(-x/[2])",1.,1000.);
-  fbEtaBarrelH->SetParameter(0,-0.0232604);
-  fbEtaBarrelH->SetParameter(1,0.0937525);
-  fbEtaBarrelH->SetParameter(2,34.9935);
+ //calibChrisClean.C calibration parameters bhumika march 2018
+  //change in code to make it eta independent --->  fa_Barrel, fa_Endcap etc to fa_0, fa_1, fa_2 etc where 0,1,2,3,4,5 are finer eta regions. 
+  fa_0 = std::make_unique<TF1>("fa_0","[0]+((([1]+([2]/sqrt(x)))*exp(-(x^[6]/[3])))-([4]*exp(-(x^[7]/[5]))))",1.,1000.);
+  fa_0->SetParameter(0,-13.9219);
+  fa_0->SetParameter(1,14.9124);
+  fa_0->SetParameter(2,5.38578);
+  fa_0->SetParameter(3,0.861981);
+  fa_0->SetParameter(4,-0.00759275);
+  fa_0->SetParameter(5,0.00373563);
+  fa_0->SetParameter(6,-1.17946);
+  fa_0->SetParameter(7,-1.69561);
+  fb_0 = std::make_unique<TF1>("fb_0","[0]+((([1]+([2]/sqrt(x)))*exp(-(x^[6]/[3])))-([4]*exp(-(x^[7]/[5]))))",1.,1000.);
+  fb_0->SetParameter(0,2.25366);
+  fb_0->SetParameter(1,0.537715);
+  fb_0->SetParameter(2,-4.81375);
+  fb_0->SetParameter(3,12.109);
+  fb_0->SetParameter(4,1.80577);
+  fb_0->SetParameter(5,0.187919);
+  fb_0->SetParameter(6,-6.26234);
+  fb_0->SetParameter(7,-0.607392);
+  fc_0 = std::make_unique<TF1>("fc_0","[0]+((([1]+([2]/sqrt(x)))*exp(-(x^[6]/[3])))-([4]*exp(-(x^[7]/[5]))))",1.,1000.);
+  fc_0->SetParameter(1,0.855057);
+  fc_0->SetParameter(2,-6.04199);
+  fc_0->SetParameter(3,2.08229);
+  fc_0->SetParameter(4,0.592266);
+  fc_0->SetParameter(5,0.0291232);
+  fc_0->SetParameter(6,0.364802);
+  fc_0->SetParameter(7,-1.50142);
+ 
+  fa_1 = std::make_unique<TF1>("fa_1","[0]+((([1]+([2]/sqrt(x)))*exp(-(x^[6]/[3])))-([4]*exp(-(x^[7]/[5]))))",1.,1000.);
+  fa_1->SetParameter(0,-13.9219);
+  fa_1->SetParameter(1,14.9124);
+  fa_1->SetParameter(2,5.38578);
+  fa_1->SetParameter(3,0.861981);
+  fa_1->SetParameter(4,-0.00759275);
+  fa_1->SetParameter(5,0.00373563);
+  fa_1->SetParameter(6,-1.17946);
+  fa_1->SetParameter(7,-1.69561);
+  fb_1 = std::make_unique<TF1>("fb_1","[0]+((([1]+([2]/sqrt(x)))*exp(-(x^[6]/[3])))-([4]*exp(-(x^[7]/[5]))))",1.,1000.);
+  fb_1->SetParameter(0,2.25366);
+  fb_1->SetParameter(1,0.537715);
+  fb_1->SetParameter(2,-4.81375);
+  fb_1->SetParameter(3,12.109);
+  fb_1->SetParameter(4,1.80577);
+  fb_1->SetParameter(5,0.187919);
+  fb_1->SetParameter(6,-6.26234);
+  fb_1->SetParameter(7,-0.607392);
+  fc_1 = std::make_unique<TF1>("fc_1","[0]+((([1]+([2]/sqrt(x)))*exp(-(x^[6]/[3])))-([4]*exp(-(x^[7]/[5]))))",1.,1000.);
+  fc_1->SetParameter(1,0.855057);
+  fc_1->SetParameter(2,-6.04199);
+  fc_1->SetParameter(3,2.08229);
+  fc_1->SetParameter(4,0.592266);
+  fc_1->SetParameter(5,0.0291232);
+  fc_1->SetParameter(6,0.364802);
+  fc_1->SetParameter(7,-1.50142);
 
-  faEndcap = std::make_unique<TF1>("faEndcap","[0]+((([1]+([2]/sqrt(x)))*exp(-(x^[6]/[3])))-([4]*exp(-(x^[7]/[5]))))",1.,1000.);
-  faEndcap->SetParameter(0,0.962468);
-  faEndcap->SetParameter(1,11.9536);
-  faEndcap->SetParameter(2,-27.7088);
-  faEndcap->SetParameter(3,0.755474);
-  faEndcap->SetParameter(4,0.0791012);
-  faEndcap->SetParameter(5,0.0011082);
-  faEndcap->SetParameter(6,0.158734);
-  faEndcap->SetParameter(7,-2.1);
-  fbEndcap = std::make_unique<TF1>("fbEndcap","[0]+((([1]+([2]/sqrt(x)))*exp(-(x^[6]/[3])))-([4]*exp(-(x^[7]/[5]))))",1.,1000.);
-  fbEndcap->SetParameter(0,-0.629923);
-  fbEndcap->SetParameter(1,2.59634);
-  fbEndcap->SetParameter(2,-2.27786);
-  fbEndcap->SetParameter(3,1.20771);
-  fbEndcap->SetParameter(4,-1.59129);
-  fbEndcap->SetParameter(5,0.0189607);
-  fbEndcap->SetParameter(6,0.270027);
-  fbEndcap->SetParameter(7,-2.30372);
-  fcEndcap = std::make_unique<TF1>("fcEndcap","[0]+((([1]+([2]/sqrt(x)))*exp(-(x^[6]/[3])))-([4]*exp(-(x^[7]/[5]))))",1.,1000.);
-  fcEndcap->SetParameter(0,1.83168);
-  fcEndcap->SetParameter(1,1.41883);
-  fcEndcap->SetParameter(2,-5.50085);
-  fcEndcap->SetParameter(3,29.2208);
-  fcEndcap->SetParameter(4,0.923959);
-  fcEndcap->SetParameter(5,0.268974);
-  fcEndcap->SetParameter(6,1.37756);
-  fcEndcap->SetParameter(7,-0.901421);
-  faEtaEndcapEH = std::make_unique<TF1>("faEtaEndcapEH","[0]+[1]*exp(-x/[2])",1.,1000.);
-  faEtaEndcapEH->SetParameter(0,384.307);
-  faEtaEndcapEH->SetParameter(1,-384.305);
-  faEtaEndcapEH->SetParameter(2,2.16374e+08);
-  fbEtaEndcapEH = std::make_unique<TF1>("fbEtaEndcapEH","[0]+[1]*exp(-x/[2])",1.,1000.);
-  fbEtaEndcapEH->SetParameter(0,0.0120097);
-  fbEtaEndcapEH->SetParameter(1,-0.131464);
-  fbEtaEndcapEH->SetParameter(2,57.1104);
-  faEtaEndcapH = std::make_unique<TF1>("faEtaEndcapH","[0]+[1]*exp(-x/[2])+[3]*[3]*exp(-x*x/([4]*[4]))",1.,1000.);
-  faEtaEndcapH->SetParameter(0,-0.0106029);
-  faEtaEndcapH->SetParameter(1,-0.692207);
-  faEtaEndcapH->SetParameter(2,0.0542991);
-  faEtaEndcapH->SetParameter(3,-0.171435);
-  faEtaEndcapH->SetParameter(4,-61.2277);
-  fbEtaEndcapH = std::make_unique<TF1>("fbEtaEndcapH","[0]+[1]*exp(-x/[2])+[3]*[3]*exp(-x*x/([4]*[4]))",1.,1000.);
-  fbEtaEndcapH->SetParameter(0,0.0214894);
-  fbEtaEndcapH->SetParameter(1,-0.266704);
-  fbEtaEndcapH->SetParameter(2,5.2112);
-  fbEtaEndcapH->SetParameter(3,0.303578);
-  fbEtaEndcapH->SetParameter(4,-104.367);
+  fa_2 = std::make_unique<TF1>("fa_1","[0]+((([1]+([2]/sqrt(x)))*exp(-(x^[6]/[3])))-([4]*exp(-(x^[7]/[5]))))",1.,1000.);
+  fa_2->SetParameter(0,-13.9219);
+  fa_2->SetParameter(1,14.9124);
+  fa_2->SetParameter(2,5.38578);
+  fa_2->SetParameter(3,0.861981);
+  fa_2->SetParameter(4,-0.00759275);
+  fa_2->SetParameter(5,0.00373563);
+  fa_2->SetParameter(6,-1.17946);
+  fa_2->SetParameter(7,-1.69561);
+  fb_2 = std::make_unique<TF1>("fb_1","[0]+((([1]+([2]/sqrt(x)))*exp(-(x^[6]/[3])))-([4]*exp(-(x^[7]/[5]))))",1.,1000.);
+  fb_2->SetParameter(0,2.25366);
+  fb_2->SetParameter(1,0.537715);
+  fb_2->SetParameter(2,-4.81375);
+  fb_2->SetParameter(3,12.109);
+  fb_2->SetParameter(4,1.80577);
+  fb_2->SetParameter(5,0.187919);
+  fb_2->SetParameter(6,-6.26234);
+  fb_2->SetParameter(7,-0.607392);
+  fc_2 = std::make_unique<TF1>("fc_1","[0]+((([1]+([2]/sqrt(x)))*exp(-(x^[6]/[3])))-([4]*exp(-(x^[7]/[5]))))",1.,1000.);
+  fc_2->SetParameter(1,0.855057);
+  fc_2->SetParameter(2,-6.04199);
+  fc_2->SetParameter(3,2.08229);
+  fc_2->SetParameter(4,0.592266);
+  fc_2->SetParameter(5,0.0291232);
+  fc_2->SetParameter(6,0.364802);
+  fc_2->SetParameter(7,-1.50142);
+ 
+  fa_3 = std::make_unique<TF1>("fa_3","[0]+((([1]+([2]/sqrt(x)))*exp(-(x^[6]/[3])))-([4]*exp(-(x^[7]/[5]))))",1.,1000.);
+  fa_3->SetParameter(0,-13.9219);
+  fa_3->SetParameter(1,14.9124);
+  fa_3->SetParameter(2,5.38578);
+  fa_3->SetParameter(3,0.861981);
+  fa_3->SetParameter(4,-0.00759275);
+  fa_3->SetParameter(5,0.00373563);
+  fa_3->SetParameter(6,-1.17946);
+  fa_3->SetParameter(7,-1.69561);
+  fb_3 = std::make_unique<TF1>("fb_3","[0]+((([1]+([2]/sqrt(x)))*exp(-(x^[6]/[3])))-([4]*exp(-(x^[7]/[5]))))",3.,1000.);
+  fb_3->SetParameter(0,2.25366);
+  fb_3->SetParameter(1,0.537715);
+  fb_3->SetParameter(2,-4.81375);
+  fb_3->SetParameter(3,12.109);
+  fb_3->SetParameter(4,1.80577);
+  fb_3->SetParameter(5,0.187919);
+  fb_3->SetParameter(6,-6.26234);
+  fb_3->SetParameter(7,-0.607392);
+  fc_3 = std::make_unique<TF1>("fc_3","[0]+((([1]+([2]/sqrt(x)))*exp(-(x^[6]/[3])))-([4]*exp(-(x^[7]/[5]))))",1.,1000.);
+  fc_3->SetParameter(1,0.855057);
+  fc_3->SetParameter(2,-6.04199);
+  fc_3->SetParameter(3,2.08229);
+  fc_3->SetParameter(4,0.592266);
+  fc_3->SetParameter(5,0.0291232);
+  fc_3->SetParameter(6,0.364802);
+  fc_3->SetParameter(7,-1.50142);
+
+  fa_4 = std::make_unique<TF1>("fa_4","[0]+((([1]+([2]/sqrt(x)))*exp(-(x^[6]/[3])))-([4]*exp(-(x^[7]/[5]))))",1.,1000.);
+  fa_4->SetParameter(0,-13.9219);
+  fa_4->SetParameter(1,14.9124);
+  fa_4->SetParameter(2,5.38578);
+  fa_4->SetParameter(3,0.861981);
+  fa_4->SetParameter(4,-0.00759275);
+  fa_4->SetParameter(5,0.00373563);
+  fa_4->SetParameter(6,-1.17946);
+  fa_4->SetParameter(7,-1.69561);
+  fb_4 = std::make_unique<TF1>("fb_4","[0]+((([1]+([2]/sqrt(x)))*exp(-(x^[6]/[3])))-([4]*exp(-(x^[7]/[5]))))",1.,1000.);
+  fb_4->SetParameter(0,2.25366);
+  fb_4->SetParameter(1,0.537715);
+  fb_4->SetParameter(2,-4.81375);
+  fb_4->SetParameter(3,12.109);
+  fb_4->SetParameter(4,1.80577);
+  fb_4->SetParameter(5,0.187919);
+  fb_4->SetParameter(6,-6.26234);
+  fb_4->SetParameter(7,-0.607392);
+  fc_4 = std::make_unique<TF1>("fc_4","[0]+((([1]+([2]/sqrt(x)))*exp(-(x^[6]/[3])))-([4]*exp(-(x^[7]/[5]))))",1.,1000.);
+  fc_4->SetParameter(1,0.855057);
+  fc_4->SetParameter(2,-6.04199);
+  fc_4->SetParameter(3,2.08229);
+  fc_4->SetParameter(4,0.592266);
+  fc_4->SetParameter(5,0.0291232);
+  fc_4->SetParameter(6,0.364802);
+  fc_4->SetParameter(7,-1.50142);
+
+  fa_5 = std::make_unique<TF1>("fa_5","[0]+((([1]+([2]/sqrt(x)))*exp(-(x^[6]/[3])))-([4]*exp(-(x^[7]/[5]))))",1.,1000.);
+  fa_5->SetParameter(0,-13.9219);
+  fa_5->SetParameter(1,14.9124);
+  fa_5->SetParameter(2,5.38578);
+  fa_5->SetParameter(3,0.861981);
+  fa_5->SetParameter(4,-0.00759275);
+  fa_5->SetParameter(5,0.00373563);
+  fa_5->SetParameter(6,-1.17946);
+  fa_5->SetParameter(7,-1.69561);
+  fb_5 = std::make_unique<TF1>("fb_5","[0]+((([1]+([2]/sqrt(x)))*exp(-(x^[6]/[3])))-([4]*exp(-(x^[7]/[5]))))",1.,1000.);
+  fb_5->SetParameter(0,2.25366);
+  fb_5->SetParameter(1,0.537715);
+  fb_5->SetParameter(2,-4.81375);
+  fb_5->SetParameter(3,12.109);
+  fb_5->SetParameter(4,1.80577);
+  fb_5->SetParameter(5,0.187919);
+  fb_5->SetParameter(6,-6.26234);
+  fb_5->SetParameter(7,-0.607392);
+  fc_5 = std::make_unique<TF1>("fc_5","[0]+((([1]+([2]/sqrt(x)))*exp(-(x^[6]/[3])))-([4]*exp(-(x^[7]/[5]))))",1.,1000.);
+  fc_5->SetParameter(1,0.855057);
+  fc_5->SetParameter(2,-6.04199);
+  fc_5->SetParameter(3,2.08229);
+  fc_5->SetParameter(4,0.592266);
+  fc_5->SetParameter(5,0.0291232);
+  fc_5->SetParameter(6,0.364802);
+  fc_5->SetParameter(7,-1.50142);
+
 }
 
 void 
@@ -130,17 +204,17 @@ PFEnergyCalibration::energyEmHad(double t, double& e, double&h, double eta, doub
   double hh = h;
   double a = 1.;
   double b = 1.;
-  double etaCorrE = 1.;
-  double etaCorrH = 1.;
+  // double etaCorrE = 1.;
+  // double etaCorrH = 1.;
   auto absEta = std::abs(eta);
   t = min(999.9,max(tt,e+h));
   if ( t < 1. ) return;
 
-  // Barrel calibration
-  if ( absEta < 1.48 ) { 
+  // FOR eta region 0 to 1
+  if ( absEta <= 1.0 ) { 
     // The energy correction
-    a = e>0. ? aBarrel(t) : 1.;
-    b = e>0. ? bBarrel(t) : cBarrel(t);
+    a = e>0. ? a_0(t) : 1.;
+    b = e>0. ? b_0(t) : c_0(t);
     double thresh = e > 0. ? threshE : threshH;
 
     // Protection against negative calibration
@@ -154,24 +228,27 @@ PFEnergyCalibration::energyEmHad(double t, double& e, double&h, double eta, doub
     t = min(999.9,max(tt, thresh+a*e+b*h));
 
     // The angular correction 
-    if ( e > 0. && thresh > 0. ) {
-      etaCorrE = 1.0 + aEtaBarrelEH(t) + 1.3*bEtaBarrelEH(t)*absEta*absEta;
-      etaCorrH = 1.0;
-    } else {
-      etaCorrE = 1.0 + aEtaBarrelH(t) + 1.3*bEtaBarrelH(t)*absEta*absEta; 
-      etaCorrH = 1.0 + aEtaBarrelH(t) + bEtaBarrelH(t)*absEta*absEta;
-    }
+    // if ( e > 0. && thresh > 0. ) {
+    //   etaCorrE = 1.0 + aEtaBarrelEH(t) + 1.3*bEtaBarrelEH(t)*absEta*absEta;
+    //   etaCorrH = 1.0;
+    // } else {
+    //   etaCorrE = 1.0 + aEtaBarrelH(t) + 1.3*bEtaBarrelH(t)*absEta*absEta; 
+    //   etaCorrH = 1.0 + aEtaBarrelH(t) + bEtaBarrelH(t)*absEta*absEta;
+    // }
     if ( e > 0. && thresh > 0. ) 
-      e = h > 0. ? threshE-threshH + etaCorrE * a * e : threshE + etaCorrE * a * e;
+      e = h > 0. ? threshE-threshH +  a * e : threshE +  a * e;
     if ( h > 0. && thresh > 0. ) {
-      h = threshH + etaCorrH * b * h;
+      h = threshH + b * h;
     }
 
-  // Endcap calibration   
-  } else {
+     
+  }
+
+// FOR eta region 1 to 1.3
+  if ( absEta > 1 && absEta <= 1.3 ) { 
     // The energy correction
-    a = e>0. ? aEndcap(t) : 1.;
-    b = e>0. ? bEndcap(t) : cEndcap(t);
+    a = e>0. ? a_1(t) : 1.;
+    b = e>0. ? b_1(t) : c_1(t);
     double thresh = e > 0. ? threshE : threshH;
 
     // Protection against negative calibration
@@ -183,274 +260,450 @@ PFEnergyCalibration::energyEmHad(double t, double& e, double&h, double eta, doub
 
     // The new estimate of the true energy
     t = min(999.9,max(tt, thresh+a*e+b*h));
-    
+
     // The angular correction 
-    double dEta = std::abs( absEta - 1.5 );
-    double etaPow = dEta * dEta * dEta * dEta;
-
-
-    if ( e > 0. && thresh > 0. ) {
-      if(absEta<2.5) {
-        etaCorrE = 1. + aEtaEndcapEH(t) ;
-      }
-      else {
-        etaPow = dEta * dEta;
-        etaCorrE = 1. + aEtaEndcapEH(t) + 1.3*bEtaEndcapEH(t)*(0.6 + etaPow);
-      }
-      etaPow = dEta * dEta * dEta * dEta;
-      etaCorrH = 1. + aEtaEndcapEH(t) + bEtaEndcapEH(t)*(0.04 + etaPow);
-    } else {
-      etaCorrE = 1. + aEtaEndcapH(t) + 1.3*bEtaEndcapH(t)*(0.04 + etaPow);
-      if(absEta<2.5) {
-        etaCorrH = 1. + aEtaEndcapH(t) + 0.05*bEtaEndcapH(t);
-      }
-      else {
-        etaCorrH = 1. + aEtaEndcapH(t) + bEtaEndcapH(t)*(etaPow - 1.1);
-      }
+    // if ( e > 0. && thresh > 0. ) {
+    //   etaCorrE = 1.0 + aEtaBarrelEH(t) + 1.3*bEtaBarrelEH(t)*absEta*absEta;
+    //   etaCorrH = 1.0;
+    // } else {
+    //   etaCorrE = 1.0 + aEtaBarrelH(t) + 1.3*bEtaBarrelH(t)*absEta*absEta; 
+    //   etaCorrH = 1.0 + aEtaBarrelH(t) + bEtaBarrelH(t)*absEta*absEta;
+    // }
+    if ( e > 0. && thresh > 0. ) 
+      e = h > 0. ? threshE-threshH +  a * e : threshE +  a * e;
+    if ( h > 0. && thresh > 0. ) {
+      h = threshH + b * h;
     }
 
-    //t = min(999.9,max(tt, thresh + etaCorrE*a*e + etaCorrH*b*h));
+  }
+// FOR eta region 1.3 to 1.6
+  if ( absEta > 1.3 && absEta <= 1.6 ) { 
+    // The energy correction
+    a = e>0. ? a_2(t) : 1.;
+    b = e>0. ? b_2(t) : c_2(t);
+    double thresh = e > 0. ? threshE : threshH;
 
+    // Protection against negative calibration
+    if ( a < -0.25 || b < -0.25 ) { 
+      a = 1.;
+      b = 1.;
+      thresh = 0.;
+    }
+
+    // The new estimate of the true energy
+    t = min(999.9,max(tt, thresh+a*e+b*h));
+
+    // The angular correction 
+    // if ( e > 0. && thresh > 0. ) {
+    //   etaCorrE = 1.0 + aEtaBarrelEH(t) + 1.3*bEtaBarrelEH(t)*absEta*absEta;
+    //   etaCorrH = 1.0;
+    // } else {
+    //   etaCorrE = 1.0 + aEtaBarrelH(t) + 1.3*bEtaBarrelH(t)*absEta*absEta; 
+    //   etaCorrH = 1.0 + aEtaBarrelH(t) + bEtaBarrelH(t)*absEta*absEta;
+    // }
     if ( e > 0. && thresh > 0. ) 
-      e = h > 0. ? threshE-threshH + etaCorrE * a * e : threshE + etaCorrE * a * e;
+      e = h > 0. ? threshE-threshH +  a * e : threshE +  a * e;
     if ( h > 0. && thresh > 0. ) {
-      h = threshH + etaCorrH * b * h;
+      h = threshH + b * h;
+    }
+
+  }
+ 
+
+// FOR eta region 1.6 to 2.0
+  if ( absEta > 1.6 && absEta <= 2.0 ) { 
+    // The energy correction
+    a = e>0. ? a_3(t) : 1.;
+    b = e>0. ? b_3(t) : c_3(t);
+    double thresh = e > 0. ? threshE : threshH;
+
+    // Protection against negative calibration
+    if ( a < -0.25 || b < -0.25 ) { 
+      a = 1.;
+      b = 1.;
+      thresh = 0.;
+    }
+
+    // The new estimate of the true energy
+    t = min(999.9,max(tt, thresh+a*e+b*h));
+
+    // The angular correction 
+    // if ( e > 0. && thresh > 0. ) {
+    //   etaCorrE = 1.0 + aEtaBarrelEH(t) + 1.3*bEtaBarrelEH(t)*absEta*absEta;
+    //   etaCorrH = 1.0;
+    // } else {
+    //   etaCorrE = 1.0 + aEtaBarrelH(t) + 1.3*bEtaBarrelH(t)*absEta*absEta; 
+    //   etaCorrH = 1.0 + aEtaBarrelH(t) + bEtaBarrelH(t)*absEta*absEta;
+    // }
+    if ( e > 0. && thresh > 0. ) 
+      e = h > 0. ? threshE-threshH +  a * e : threshE +  a * e;
+    if ( h > 0. && thresh > 0. ) {
+      h = threshH + b * h;
+    }
+
+  }
+// FOR eta region 2 to 2.5
+  if ( absEta > 2 && absEta <= 2.5 ) { 
+    // The energy correction
+    a = e>0. ? a_4(t) : 1.;
+    b = e>0. ? b_4(t) : c_4(t);
+    double thresh = e > 0. ? threshE : threshH;
+
+    // Protection against negative calibration
+    if ( a < -0.25 || b < -0.25 ) { 
+      a = 1.;
+      b = 1.;
+      thresh = 0.;
+    }
+
+    // The new estimate of the true energy
+    t = min(999.9,max(tt, thresh+a*e+b*h));
+
+    // The angular correction 
+    // if ( e > 0. && thresh > 0. ) {
+    //   etaCorrE = 1.0 + aEtaBarrelEH(t) + 1.3*bEtaBarrelEH(t)*absEta*absEta;
+    //   etaCorrH = 1.0;
+    // } else {
+    //   etaCorrE = 1.0 + aEtaBarrelH(t) + 1.3*bEtaBarrelH(t)*absEta*absEta; 
+    //   etaCorrH = 1.0 + aEtaBarrelH(t) + bEtaBarrelH(t)*absEta*absEta;
+    // }
+    if ( e > 0. && thresh > 0. ) 
+      e = h > 0. ? threshE-threshH +  a * e : threshE +  a * e;
+    if ( h > 0. && thresh > 0. ) {
+      h = threshH + b * h;
     }
   }
 
-  // Protection
+// FOR eta region 2.5 to 3.0
+  if ( absEta > 2.5 && absEta <= 3 ) { 
+    // The energy correction
+    a = e>0. ? a_5(t) : 1.;
+    b = e>0. ? b_5(t) : c_5(t);
+    double thresh = e > 0. ? threshE : threshH;
+
+    // Protection against negative calibration
+    if ( a < -0.25 || b < -0.25 ) { 
+      a = 1.;
+      b = 1.;
+      thresh = 0.;
+    }
+
+    // The new estimate of the true energy
+    t = min(999.9,max(tt, thresh+a*e+b*h));
+
+    // The angular correction 
+    // if ( e > 0. && thresh > 0. ) {
+    //   etaCorrE = 1.0 + aEtaBarrelEH(t) + 1.3*bEtaBarrelEH(t)*absEta*absEta;
+    //   etaCorrH = 1.0;
+    // } else {
+    //   etaCorrE = 1.0 + aEtaBarrelH(t) + 1.3*bEtaBarrelH(t)*absEta*absEta; 
+    //   etaCorrH = 1.0 + aEtaBarrelH(t) + bEtaBarrelH(t)*absEta*absEta;
+    // }
+    if ( e > 0. && thresh > 0. ) 
+      e = h > 0. ? threshE-threshH +  a * e : threshE +  a * e;
+    if ( h > 0. && thresh > 0. ) {
+      h = threshH + b * h;
+    }
+
+  }
+
+  // Protection                                                                                                                                
   if ( e < 0. || h < 0. ) {
-  
-    // Some protection against crazy calibration
+
+    // Some protection against crazy calibration                                                                                               
     if ( e < 0. ) e = ee;
     if ( h < 0. ) h = hh;
   }
+
+
 
   // And that's it !
 
   
 }
-
+  
 // The calibration functions
+  
+ 
+  double 
+    PFEnergyCalibration::a_0(double x) const { 
+
+    if ( pfCalibrations ) { 
+      BinningPointByMap point;
+      point.insert(BinningVariables::JetEt, x);
+      return pfCalibrations->getResult(PerformanceResult::PFfa_0,point); 
+
+    } else { 
+
+      return fa_0->Eval(x); 
+
+    }
+  }
+
 double 
-PFEnergyCalibration::aBarrel(double x) const { 
+PFEnergyCalibration::b_0(double x) const { 
 
   if ( pfCalibrations ) { 
+
     BinningPointByMap point;
     point.insert(BinningVariables::JetEt, x);
-    return pfCalibrations->getResult(PerformanceResult::PFfa_BARREL,point); 
+    return pfCalibrations->getResult(PerformanceResult::PFfb_0,point); 
 
   } else { 
 
-    return faBarrel->Eval(x); 
+    return fb_0->Eval(x); 
 
   }
 }
 
 double 
-PFEnergyCalibration::bBarrel(double x) const { 
+PFEnergyCalibration::c_0(double x) const { 
 
   if ( pfCalibrations ) { 
 
     BinningPointByMap point;
     point.insert(BinningVariables::JetEt, x);
-    return pfCalibrations->getResult(PerformanceResult::PFfb_BARREL,point); 
+    return pfCalibrations->getResult(PerformanceResult::PFfc_0,point); 
 
   } else { 
 
-    return fbBarrel->Eval(x); 
+    return fc_0->Eval(x); 
+
+  }
+}
+
+
+double 
+PFEnergyCalibration::a_1(double x) const { 
+
+  if ( pfCalibrations ) { 
+
+    BinningPointByMap point;
+    point.insert(BinningVariables::JetEt, x);
+    return pfCalibrations->getResult(PerformanceResult::PFfa_1,point); 
+
+  } else { 
+
+    return fa_1->Eval(x); 
 
   }
 }
 
 double 
-PFEnergyCalibration::cBarrel(double x) const { 
+PFEnergyCalibration::b_1(double x) const { 
 
   if ( pfCalibrations ) { 
 
     BinningPointByMap point;
     point.insert(BinningVariables::JetEt, x);
-    return pfCalibrations->getResult(PerformanceResult::PFfc_BARREL,point); 
+    return pfCalibrations->getResult(PerformanceResult::PFfb_1,point); 
 
   } else { 
 
-    return fcBarrel->Eval(x); 
+    return fb_1->Eval(x); 
 
   }
 }
 
 double 
-PFEnergyCalibration::aEtaBarrelEH(double x) const { 
+PFEnergyCalibration::c_1(double x) const { 
 
   if ( pfCalibrations ) { 
 
     BinningPointByMap point;
     point.insert(BinningVariables::JetEt, x);
-    return pfCalibrations->getResult(PerformanceResult::PFfaEta_BARRELEH,point); 
+    return pfCalibrations->getResult(PerformanceResult::PFfc_1,point); 
 
   } else { 
 
-    return faEtaBarrelEH->Eval(x); 
+    return fc_1->Eval(x); 
 
   }
 }
 
 double 
-PFEnergyCalibration::bEtaBarrelEH(double x) const { 
+PFEnergyCalibration::a_2(double x) const { 
 
   if ( pfCalibrations ) { 
-
     BinningPointByMap point;
     point.insert(BinningVariables::JetEt, x);
-    return pfCalibrations->getResult(PerformanceResult::PFfbEta_BARRELEH,point); 
+    return pfCalibrations->getResult(PerformanceResult::PFfa_2,point); 
 
   } else { 
 
-    return fbEtaBarrelEH->Eval(x); 
+    return fa_2->Eval(x); 
 
   }
 }
 
 double 
-PFEnergyCalibration::aEtaBarrelH(double x) const { 
+PFEnergyCalibration::b_2(double x) const { 
 
   if ( pfCalibrations ) { 
 
     BinningPointByMap point;
     point.insert(BinningVariables::JetEt, x);
-    return pfCalibrations->getResult(PerformanceResult::PFfaEta_BARRELH,point); 
+    return pfCalibrations->getResult(PerformanceResult::PFfb_2,point); 
 
   } else { 
 
-    return faEtaBarrelH->Eval(x); 
+    return fb_2->Eval(x); 
 
   }
 }
 
 double 
-PFEnergyCalibration::bEtaBarrelH(double x) const { 
+PFEnergyCalibration::c_2(double x) const { 
 
   if ( pfCalibrations ) { 
 
     BinningPointByMap point;
     point.insert(BinningVariables::JetEt, x);
-    return pfCalibrations->getResult(PerformanceResult::PFfbEta_BARRELH,point); 
+    return pfCalibrations->getResult(PerformanceResult::PFfc_2,point); 
 
   } else { 
 
-    return fbEtaBarrelH->Eval(x); 
+    return fc_2->Eval(x); 
+
+  }
+}
+double 
+PFEnergyCalibration::a_3(double x) const { 
+
+  if ( pfCalibrations ) { 
+    BinningPointByMap point;
+    point.insert(BinningVariables::JetEt, x);
+    return pfCalibrations->getResult(PerformanceResult::PFfa_3,point); 
+
+  } else { 
+
+    return fa_3->Eval(x); 
 
   }
 }
 
 double 
-PFEnergyCalibration::aEndcap(double x) const { 
+PFEnergyCalibration::b_3(double x) const { 
 
   if ( pfCalibrations ) { 
 
     BinningPointByMap point;
     point.insert(BinningVariables::JetEt, x);
-    return pfCalibrations->getResult(PerformanceResult::PFfa_ENDCAP,point); 
+    return pfCalibrations->getResult(PerformanceResult::PFfb_3,point); 
 
   } else { 
 
-    return faEndcap->Eval(x); 
+    return fb_3->Eval(x); 
 
   }
 }
 
 double 
-PFEnergyCalibration::bEndcap(double x) const { 
+PFEnergyCalibration::c_3(double x) const { 
 
   if ( pfCalibrations ) { 
 
     BinningPointByMap point;
     point.insert(BinningVariables::JetEt, x);
-    return pfCalibrations->getResult(PerformanceResult::PFfb_ENDCAP,point); 
+    return pfCalibrations->getResult(PerformanceResult::PFfc_3,point); 
 
   } else { 
 
-    return fbEndcap->Eval(x); 
+    return fc_3->Eval(x); 
 
   }
 }
 
 double 
-PFEnergyCalibration::cEndcap(double x) const { 
+PFEnergyCalibration::a_4(double x) const { 
 
   if ( pfCalibrations ) { 
-
     BinningPointByMap point;
     point.insert(BinningVariables::JetEt, x);
-    return pfCalibrations->getResult(PerformanceResult::PFfc_ENDCAP,point); 
+    return pfCalibrations->getResult(PerformanceResult::PFfa_4,point); 
 
   } else { 
 
-    return fcEndcap->Eval(x); 
+    return fa_4->Eval(x); 
 
   }
 }
 
 double 
-PFEnergyCalibration::aEtaEndcapEH(double x) const { 
+PFEnergyCalibration::b_4(double x) const { 
 
   if ( pfCalibrations ) { 
 
     BinningPointByMap point;
     point.insert(BinningVariables::JetEt, x);
-    return pfCalibrations->getResult(PerformanceResult::PFfaEta_ENDCAPEH,point); 
+    return pfCalibrations->getResult(PerformanceResult::PFfb_4,point); 
 
   } else { 
 
-    return faEtaEndcapEH->Eval(x); 
+    return fb_4->Eval(x); 
 
   }
 }
 
 double 
-PFEnergyCalibration::bEtaEndcapEH(double x) const { 
+PFEnergyCalibration::c_4(double x) const { 
 
   if ( pfCalibrations ) { 
 
     BinningPointByMap point;
     point.insert(BinningVariables::JetEt, x);
-    return pfCalibrations->getResult(PerformanceResult::PFfbEta_ENDCAPEH,point); 
+    return pfCalibrations->getResult(PerformanceResult::PFfc_4,point); 
 
   } else { 
 
-    return fbEtaEndcapEH->Eval(x); 
+    return fc_4->Eval(x); 
 
   }
 }
 
 double 
-PFEnergyCalibration::aEtaEndcapH(double x) const { 
+PFEnergyCalibration::a_5(double x) const { 
 
   if ( pfCalibrations ) { 
-
     BinningPointByMap point;
     point.insert(BinningVariables::JetEt, x);
-    return pfCalibrations->getResult(PerformanceResult::PFfaEta_ENDCAPH,point); 
+    return pfCalibrations->getResult(PerformanceResult::PFfa_5,point); 
 
   } else { 
 
-    return faEtaEndcapH->Eval(x); 
+    return fa_5->Eval(x); 
 
   }
 }
 
 double 
-PFEnergyCalibration::bEtaEndcapH(double x) const { 
+PFEnergyCalibration::b_5(double x) const { 
 
   if ( pfCalibrations ) { 
 
     BinningPointByMap point;
     point.insert(BinningVariables::JetEt, x);
-    return pfCalibrations->getResult(PerformanceResult::PFfbEta_ENDCAPH,point); 
+    return pfCalibrations->getResult(PerformanceResult::PFfb_5,point); 
 
   } else { 
 
-    return fbEtaEndcapH->Eval(x); 
+    return fb_5->Eval(x); 
+
+  }
+}
+
+double 
+PFEnergyCalibration::c_5(double x) const { 
+
+  if ( pfCalibrations ) { 
+
+    BinningPointByMap point;
+    point.insert(BinningVariables::JetEt, x);
+    return pfCalibrations->getResult(PerformanceResult::PFfc_5,point); 
+
+  } else { 
+
+    return fc_5->Eval(x); 
 
   }
 }
@@ -520,20 +773,25 @@ std::ostream& operator<<(std::ostream& out,
 
     static std::map<std::string, PerformanceResult::ResultType> functType;
 
-    functType["PFfa_BARREL"] = PerformanceResult::PFfa_BARREL;
-    functType["PFfa_ENDCAP"] = PerformanceResult::PFfa_ENDCAP;
-    functType["PFfb_BARREL"] = PerformanceResult::PFfb_BARREL;
-    functType["PFfb_ENDCAP"] = PerformanceResult::PFfb_ENDCAP;
-    functType["PFfc_BARREL"] = PerformanceResult::PFfc_BARREL;
-    functType["PFfc_ENDCAP"] = PerformanceResult::PFfc_ENDCAP;
-    functType["PFfaEta_BARRELH"] = PerformanceResult::PFfaEta_BARRELH;
-    functType["PFfaEta_ENDCAPH"] = PerformanceResult::PFfaEta_ENDCAPH;
-    functType["PFfbEta_BARRELH"] = PerformanceResult::PFfbEta_BARRELH;
-    functType["PFfbEta_ENDCAPH"] = PerformanceResult::PFfbEta_ENDCAPH;
-    functType["PFfaEta_BARRELEH"] = PerformanceResult::PFfaEta_BARRELEH;
-    functType["PFfaEta_ENDCAPEH"] = PerformanceResult::PFfaEta_ENDCAPEH;
-    functType["PFfbEta_BARRELEH"] = PerformanceResult::PFfbEta_BARRELEH;
-    functType["PFfbEta_ENDCAPEH"] = PerformanceResult::PFfbEta_ENDCAPEH;
+   
+    functType["PFfa_0"] = PerformanceResult::PFfa_0;
+    functType["PFfb_0"] = PerformanceResult::PFfb_0;
+    functType["PFfc_0"] = PerformanceResult::PFfc_0;
+    functType["PFfa_1"] = PerformanceResult::PFfa_1;
+    functType["PFfb_1"] = PerformanceResult::PFfb_1;
+    functType["PFfc_1"] = PerformanceResult::PFfc_1;
+    functType["PFfa_2"] = PerformanceResult::PFfa_2;
+    functType["PFfb_2"] = PerformanceResult::PFfb_2;
+    functType["PFfc_2"] = PerformanceResult::PFfc_2;
+    functType["PFfa_3"] = PerformanceResult::PFfa_3;
+    functType["PFfb_3"] = PerformanceResult::PFfb_3;
+    functType["PFfc_3"] = PerformanceResult::PFfc_3;
+    functType["PFfa_4"] = PerformanceResult::PFfa_4;
+    functType["PFfb_4"] = PerformanceResult::PFfb_4;
+    functType["PFfc_5"] = PerformanceResult::PFfc_4;
+    functType["PFfa_5"] = PerformanceResult::PFfa_5;
+    functType["PFfb_5"] = PerformanceResult::PFfb_5;
+    functType["PFfc_5"] = PerformanceResult::PFfc_5;
     
     for(std::map<std::string,PerformanceResult::ResultType>::const_iterator 
 	  func = functType.begin(); 
@@ -549,20 +807,24 @@ std::ostream& operator<<(std::ostream& out,
     
     std::cout << "Default calibration functions : " << std::endl;
     
-    calib.faBarrel->Print();
-    calib.fbBarrel->Print();
-    calib.fcBarrel->Print();
-    calib.faEtaBarrelEH->Print();
-    calib.fbEtaBarrelEH->Print();
-    calib.faEtaBarrelH->Print();
-    calib.fbEtaBarrelH->Print();
-    calib.faEndcap->Print();
-    calib.fbEndcap->Print();
-    calib.fcEndcap->Print();
-    calib.faEtaEndcapEH->Print();
-    calib.fbEtaEndcapEH->Print();
-    calib.faEtaEndcapH->Print();
-    calib.fbEtaEndcapH->Print();
+   calib.fa_0->Print();
+    calib.fb_0->Print();
+    calib.fc_0->Print();
+    calib.fa_1->Print();
+    calib.fb_1->Print();
+    calib.fc_1->Print();
+    calib.fa_2->Print();
+    calib.fb_2->Print();
+    calib.fc_2->Print();
+    calib.fa_3->Print();
+    calib.fb_3->Print();
+    calib.fc_3->Print();
+    calib.fa_4->Print();
+    calib.fb_4->Print();
+    calib.fc_4->Print();
+    calib.fa_5->Print();
+    calib.fb_5->Print();
+    calib.fc_5->Print();
 
   }
     
