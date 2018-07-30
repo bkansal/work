@@ -89,23 +89,37 @@ class PFEnergyCalibration
   const PerformancePayloadFromTFormula *pfCalibrations;
   const ESEEIntercalibConstants* esEEInterCalib_;
   
-  // Barrel calibration (eta 0.00 -> 1.48)
-  std::unique_ptr<TF1> faBarrel;
-  std::unique_ptr<TF1> fbBarrel; 
-  std::unique_ptr<TF1> fcBarrel; 
-  std::unique_ptr<TF1> faEtaBarrelEH; 
-  std::unique_ptr<TF1> fbEtaBarrelEH; 
-  std::unique_ptr<TF1> faEtaBarrelH; 
-  std::unique_ptr<TF1> fbEtaBarrelH; 
+  // eta 0 -> 1
+  std::unique_ptr<TF1> fa_0;
+  std::unique_ptr<TF1> fb_0; 
+  std::unique_ptr<TF1> fc_0; 
+ 
+  // eta 1 -> 1.3
+  std::unique_ptr<TF1> fa_1;
+  std::unique_ptr<TF1> fb_1; 
+  std::unique_ptr<TF1> fc_1;
 
-  // Endcap calibration (eta 1.48 -> 3.xx)
-  std::unique_ptr<TF1> faEndcap;
-  std::unique_ptr<TF1> fbEndcap; 
-  std::unique_ptr<TF1> fcEndcap; 
-  std::unique_ptr<TF1> faEtaEndcapEH; 
-  std::unique_ptr<TF1> fbEtaEndcapEH; 
-  std::unique_ptr<TF1> faEtaEndcapH; 
-  std::unique_ptr<TF1> fbEtaEndcapH; 
+  // eta 1.3 -> 1.6
+  std::unique_ptr<TF1> fa_2;
+  std::unique_ptr<TF1> fb_2; 
+  std::unique_ptr<TF1> fc_2;
+ 
+  // eta 1.6 -> 2
+  std::unique_ptr<TF1> fa_3;
+  std::unique_ptr<TF1> fb_3; 
+  std::unique_ptr<TF1> fc_3;
+
+  // eta 2 -> 2.5
+  std::unique_ptr<TF1> fa_4;
+  std::unique_ptr<TF1> fb_4; 
+  std::unique_ptr<TF1> fc_4;
+
+  // eta 2.5 -> 3
+  std::unique_ptr<TF1> fa_5;
+  std::unique_ptr<TF1> fb_5; 
+  std::unique_ptr<TF1> fc_5;
+
+
 
  private:
   
@@ -127,21 +141,25 @@ class PFEnergyCalibration
   double Ecorr(double eEcal,double ePS1,double ePS2,double eta,double phi,double&,double&,bool crackCorrection=true) const;
 
   // The calibration functions
-  double aBarrel(double x) const;
-  double bBarrel(double x) const;
-  double cBarrel(double x) const;
-  double aEtaBarrelEH(double x) const;
-  double bEtaBarrelEH(double x) const; 
-  double aEtaBarrelH(double x) const;
-  double bEtaBarrelH(double x) const; 
-  double aEndcap(double x) const;
-  double bEndcap(double x) const;
-  double cEndcap(double x) const;
-  double aEtaEndcapEH(double x) const; 
-  double bEtaEndcapEH(double x) const;
-  double aEtaEndcapH(double x) const; 
-  double bEtaEndcapH(double x) const;
-
+  double a_0(double x) const;
+  double b_0(double x) const;
+  double c_0(double x) const;
+  double a_1(double x) const;
+  double b_1(double x) const;
+  double c_1(double x) const;
+  double a_2(double x) const;
+  double b_2(double x) const;
+  double c_2(double x) const;
+  double a_3(double x) const;
+  double b_3(double x) const;
+  double c_3(double x) const;
+  double a_4(double x) const;
+  double b_4(double x) const;
+  double c_4(double x) const;
+  double a_5(double x) const;
+  double b_5(double x) const;
+  double c_5(double x) const;
+ 
   // Threshold correction (offset)
   double threshE, threshH;
 
